@@ -144,14 +144,11 @@ with col1:
         bg_img_key = f"bg_img_{page_num}_{st.session_state.get('last_uploaded_filename')}"
         if bg_img_key not in st.session_state:
             page = doc[page_num - 1]
-            pix = page.get_pixmap(matrix=fitz.Matrix(1.5, 1.5), alpha=False)
-            pdf_img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-            canvas_width = 2400
-            bg_img = Image.new("RGB", (canvas_width, pdf_img.height), "white")
-            bg_img.paste(pdf_img, (0, 0))
+            pix = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
+            bg_img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
             st.session_state[bg_img_key] = bg_img
         bg_img = st.session_state[bg_img_key]
-        drawing_mode = active_tool
+        drawing_mode = st.session_state[f"active_tool_{page_num}"]
         stroke_width = 3
         stroke_color = "#3182CE"
         fill_color = "rgba(49, 130, 206, 0.15)"
