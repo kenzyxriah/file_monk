@@ -154,12 +154,35 @@ with col1:
         stroke_width = 3
         stroke_color = "#3182CE"
         fill_color = "rgba(49, 130, 206, 0.15)"
+        buffered = io.BytesIO()
+        bg_img.save(buffered, format="JPEG", quality=85)
+        bg_data_url = f"data:image/jpeg;base64,{base64.b64encode(buffered.getvalue()).decode()}"
+
+        bg_obj = {
+            "type": "image", "version": "4.4.0", "originX": "left", "originY": "top",
+            "left": 0, "top": 0, "width": bg_img.width, "height": bg_img.height,
+            "scaleX": 1, "scaleY": 1, "selectable": False, "evented": False,
+            "src": bg_data_url, "crossOrigin": "anonymous"
+        }
+
+        current_drawing = st.session_state.get(f"initial_drawing_{page_num}")
+        if current_drawing is None:
+            current_drawing = {"objects": [], "background": "#FFFFFF"}
+        else:
+            current_drawing = copy.deepcopy(current_drawing)
+            if "objects" not in current_drawing:
+                current_drawing["objects"] = []
+            
+            current_drawing["objects"] = [obj for obj in current_drawing["objects"] if obj.get("selectable") is not False or obj.get("left") != 0 or obj.get("top") != 0]
+
+        current_drawing["objects"].insert(0, bg_obj)
+
         canvas_result = st_canvas(
             fill_color=fill_color,
             stroke_width=stroke_width,
             stroke_color=stroke_color,
-            background_image=bg_img,
-            initial_drawing=st.session_state[f"initial_drawing_{page_num}"],
+            background_color="#FFFFFF",
+            initial_drawing=current_drawing,
             update_streamlit=True,
             height=bg_img.height,
             width=bg_img.width,
