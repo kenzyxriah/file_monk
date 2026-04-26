@@ -153,11 +153,17 @@ with col1:
         stroke_color = "#3182CE"
         fill_color = "rgba(49, 130, 206, 0.15)"
         
+        
+        buffered = io.BytesIO()
+        bg_img.save(buffered, format="PNG")
+        bg_img_b64 = f"data:image/png;base64,{base64.b64encode(buffered.getvalue()).decode()}"
+
         canvas_result = st_canvas(
             fill_color=fill_color,
             stroke_width=stroke_width,
             stroke_color=stroke_color,
-            background_image=bg_img,
+            background_image=bg_img_b64,
+            background_color="#FFFFFF",
             initial_drawing=st.session_state[f"initial_drawing_{page_num}"],
             update_streamlit=True,
             height=bg_img.height,
