@@ -40,8 +40,7 @@ def generate_content(prompt, current_doc="", is_rewrite=False):
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt}
-            ],
-            stream=False
+            ]
         )
         return res.choices[0].message.content.strip()
     except Exception as e:
