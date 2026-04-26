@@ -140,7 +140,8 @@ def toolbox_scripts(trigger_js: str):
                 if (el.innerText.includes('HIDDEN_STAMP')) {{
                     el.style.display = 'none';
                     el.style.height = '0';
-                    el.style.overflow = 'hidden';
+                    el.style.visibility = 'hidden';
+                    el.style.opacity = '0';
                 }}
             }});
         }};

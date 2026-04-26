@@ -145,7 +145,8 @@ with col1:
         if bg_img_key not in st.session_state:
             page = doc[page_num - 1]
             pix = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
-            bg_img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+            img_data = pix.tobytes("png")
+            bg_img = Image.open(io.BytesIO(img_data)).convert("RGB")
             st.session_state[bg_img_key] = bg_img
         bg_img = st.session_state[bg_img_key]
         drawing_mode = st.session_state[f"active_tool_{page_num}"]
