@@ -83,12 +83,6 @@ def apply_premium_theme(is_home=False):
         header[data-testid="stHeader"] {
             background: transparent !important;
         }
-
-        /* Force Canvas Background (Fix for Dark Mode Blackout) */
-        iframe[title="streamlit_drawable_canvas.st_canvas"] {
-            background-color: white !important;
-            border-radius: 10px !important;
-        }
     </style>
     """)
     
