@@ -144,7 +144,7 @@ with col1:
         bg_img_key = f"bg_img_{page_num}_{st.session_state.get('last_uploaded_filename')}"
         if bg_img_key not in st.session_state:
             page = doc[page_num - 1]
-            pix = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=True)
+            pix = page.get_pixmap(matrix=fitz.Matrix(1.5, 1.5), alpha=True)
             pdf_img = Image.frombytes("RGBA", [pix.width, pix.height], pix.samples)
             bg_img = Image.new("RGB", pdf_img.size, "white")
             bg_img.paste(pdf_img, (0, 0), pdf_img)
